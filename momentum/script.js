@@ -28,15 +28,11 @@ for(let i=0;i<6;i++){
   picsE.push(ind);
   picsN.push(ind);
 }
-
-  // let alreadyPressed=false;
   let today = new Date(),
     hour_for_button = today.getHours();
     hour_for_background = today.getHours();
-// Options
-const showAmPm = true;
 
-// Show Time
+const showAmPm = true;
 function showTime() {
   let today = new Date(),
     hour = today.getHours(),
@@ -52,18 +48,12 @@ function showTime() {
       hour_for_background++;
       else hour_for_background=0;
     }
-   // getWeather();
     month++;
 
     let weekdaySTR=setDay(weekday);
     let monthSTR=setMonth(month);
-  // Set AM or PM
-  const amPm = hour >= 24 ? ' ' : ' ';
+  const amPm = hour >= 24 ? ' ' : ' '
 
-  // 12hr Format
-  //hour = hour % 24 || 24;
-
-  // Output Time
   time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(
     sec
   )} ${showAmPm 
@@ -74,12 +64,6 @@ date.innerHTML=weekdaySTR+", "+day+" "+monthSTR;
 }
 
 async function getWeather() {
-  //weatherIcon.className = 'weather-icon owf';
-  // if(town.textContent==" "||town.textContent==""){
-  //   localStorage.setItem('city', cityStored);
-  //   town.textContent=cityStored;
-  //   alert(localStorage.getItem('city'));
-  // }
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${town.textContent}&lang=en&appid=566ed324a8ac988e56f5238ad0d8118e&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
@@ -102,15 +86,12 @@ else{
 }
 
 async function getQuote() {  
-  const url = `https://programming-quotes-api.herokuapp.com/quotes`;
-  const res = await fetch(url);
-  const data = await res.json(); 
-  let index = Math.floor((Math.random() * 200) + 1);
-  blockquote.textContent = data[index].en;
-  figcaption.textContent = data[index].author;
+  let quotes = await(await fetch('quotes.json')).json();
+  let index = Math.floor((Math.random() * 36) + 1);
+  blockquote.textContent = quotes[index].en;
+  figcaption.textContent = quotes[index].author;
 }
 
-// Add Zeros
 function addZero(n) {
   return (parseInt(n, 10) < 10 ? '0' : '') + n;
 }
@@ -186,13 +167,11 @@ function setMonth(month){
   return monthSTR;
 }
 
-// Set Background and Greeting
 function setBgGreet() {
   let today = new Date(),
     hour = today.getHours();
 
   if (hour >= 6 && hour < 12) {
-    // Morning
     switch (hour){
       case 6:
         document.body.style.backgroundImage =
@@ -221,7 +200,6 @@ function setBgGreet() {
     }
     greeting.textContent = 'Good Morning, ';
   } else if (hour >= 12 && hour < 18) {
-    // Afternoon
     switch (hour){
       case 12:
         document.body.style.backgroundImage =
@@ -251,7 +229,6 @@ function setBgGreet() {
     document.body.style.color = 'white';
     greeting.textContent = 'Good Afternoon, ';
   } else if (hour>=18&&hour<24){
-    // Evening
     switch (hour){
       case 18:
         document.body.style.backgroundImage =
@@ -313,7 +290,6 @@ function setBgGreet() {
   }
 }
 
-// Get Name
 function getName() {
   if (localStorage.getItem('name') === null) {
     name.textContent = '[Enter Name]';
@@ -322,20 +298,14 @@ function getName() {
   }
 }
 
-// Set Name
 function setName(e) {
   
   if (e.type === 'keypress') {
-    //alert("typing"); ------------------------------срабатывает во время написания
-    // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
       localStorage.setItem('name', e.target.innerText);
       name.blur();
     }
    }
-   // else {
-  //   localStorage.setItem('name', e.target.innerText);
-  // }
   if(e.type==='blur'){
     getName();
   }
@@ -363,9 +333,6 @@ else{
     checkCity();
     getWeather();
   }
-//  else {
-//   localStorage.setItem('city', e.target.innerText);
-// }
 
 }
 
@@ -400,7 +367,6 @@ function clearFocus(e){
     focus.innerHTML="";
   }
 }
-// Get Focus
 function getFocus() {
   if (localStorage.getItem('focus') === null) {
     focus.textContent = '[Enter Focus]';
@@ -409,21 +375,13 @@ function getFocus() {
   }
 }
 
-// Set Focus
 function setFocus(e) {
-  // if(e.type === 'click'){
-  //   focus.innerHTML="";
-  // }
   if (e.type === 'keypress') {
-    // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
       localStorage.setItem('focus', e.target.innerText);
       focus.blur();
     }
   }
-  //  else {
-  //   localStorage.setItem('focus', e.target.innerText);
-  // }
   if(e.type==='blur'){
     getFocus();
   }
@@ -543,8 +501,6 @@ town.addEventListener('click', clearCity);
 town.addEventListener('keypress', setCity);
 town.addEventListener('blur', getCity);
 
-// Run
-//localStorage.removeItem('city');
 showTime();
 setBgGreet();
 getName();
